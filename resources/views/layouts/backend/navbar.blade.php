@@ -34,17 +34,27 @@
                 <!-- Master Item -->
                 <li class="menu-item {{ Route::is('master*') ? 'active' : '' }}">
                     <a href="{{ route('master-items.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bxs-box"></i>
+                        <i class="menu-icon tf-icons bx bxs-package"></i>
                         <div data-i18n="Users">Master Item</div>
                     </a>
                 </li>
+
                 <!-- Category -->
                 <li class="menu-item {{ Route::is('categories*') ? 'active' : '' }}">
                     <a href="{{ route('categories.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bxs-box"></i>
+                        <i class="menu-icon tf-icons bx bxs-category-alt"></i>
                         <div data-i18n="Users">Categories</div>
                     </a>
                 </li>
+
+                <!-- Supplier -->
+                <li class="menu-item {{ Route::is('suppliers*') ? 'active' : '' }}">
+                    <a href="{{ route('suppliers.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bxs-user-rectangle"></i>
+                        <div data-i18n="Users">Suppliers</div>
+                    </a>
+                </li>
+
             </ul>
         </aside>
         <!-- / Menu -->
