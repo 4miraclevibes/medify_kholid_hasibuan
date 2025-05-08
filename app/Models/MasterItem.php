@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MasterItem extends Model
 {
-    protected $fillable = ['category_id', 'kode', 'nama', 'harga_beli', 'laba', 'supplier_id', 'jenis', 'user_id'];
+    protected $fillable = ['category_id', 'kode', 'nama', 'harga_beli', 'laba', 'supplier_id', 'jenis', 'user_id', 'image'];
 
     public function category()
     {

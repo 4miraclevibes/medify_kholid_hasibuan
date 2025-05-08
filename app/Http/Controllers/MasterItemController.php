@@ -30,20 +30,12 @@ class MasterItemController extends Controller
         return view('pages.backend.master_item.index', compact('items', 'categories', 'suppliers'));
     }
 
-    // Menampilkan form untuk membuat Master Item baru
-    public function create()
-    {
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-
-        return view('master_item.create', compact('categories', 'suppliers'));
-    }
-
     // Menyimpan Master Item baru
     public function store(Request $request)
     {
         $request->validate([
             'kode' => 'required|string|max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',
             'nama' => 'required|string|max:255',
             'harga_beli' => 'required|numeric',
             'laba' => 'required|numeric',
@@ -53,19 +45,15 @@ class MasterItemController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        MasterItem::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('image', 'public');
+        }
+
+        MasterItem::create($data);
 
         return redirect()->route('master-items.index')->with('success', 'Master Item berhasil ditambahkan');
-    }
-
-    // Menampilkan form untuk mengedit Master Item
-    public function edit($id)
-    {
-        $item = MasterItem::findOrFail($id);
-        $categories = Category::all();
-        $suppliers = Supplier::all();
-
-        return view('master_item.edit', compact('item', 'categories', 'suppliers'));
     }
 
     // Memperbarui Master Item
@@ -74,6 +62,7 @@ class MasterItemController extends Controller
         $request->validate([
             'kode' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
+            'image' => 'nullable',
             'harga_beli' => 'required|numeric',
             'laba' => 'required|numeric',
             'supplier_id' => 'required|exists:suppliers,id',
@@ -82,8 +71,16 @@ class MasterItemController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('image', 'public');
+        }
+
         $item = MasterItem::findOrFail($id);
         $item->update($request->all());
+        $item->update([
+            'image' => $data['image']
+        ]);
 
         return redirect()->route('master-items.index')->with('success', 'Master Item berhasil diperbarui');
     }

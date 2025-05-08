@@ -33,6 +33,7 @@
             <th>No</th>
             <th>Kode</th>
             <th>Kode Category</th>
+            <th>Item Gambar</th>
             <th>Nama</th>
             <th>Harga Beli</th>
             <th>Laba</th>
@@ -48,6 +49,7 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $item->kode }}</td>
             <td>{{ $item->category->code }}</td>
+            <td><a href="{{ Storage::url($item->image) }}" class="btn btn-sm btn-primary {{ $item->image == null ? 'disabled' : '' }}" target="_blank">Gambar</a></td>
             <td>{{ $item->nama }}</td>
             <td>{{ number_format($item->harga_beli) }}</td>
             <td>{{ number_format($item->laba) }} % : {{ number_format($item->laba / 100 * $item->harga_beli) }}</td>
@@ -77,7 +79,7 @@
 <!-- Modal Create -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="{{ route('master-items.store') }}" method="POST" class="modal-content">
+    <form action="{{ route('master-items.store') }}" method="POST" class="modal-content" enctype="multipart/form-data">
       @csrf
       <div class="modal-header">
         <h5 class="modal-title">Tambah Item</h5>
@@ -91,6 +93,10 @@
         <div class="mb-3">
           <label>Nama</label>
           <input type="text" class="form-control" name="nama" required>
+        </div>
+        <div class="mb-3">
+            <label for="file" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="file" name="image" required>
         </div>
         <div class="mb-3">
           <label>Harga Beli</label>
@@ -160,7 +166,7 @@
 <!-- Modal Edit -->
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="{{ route('master-items.update', $item->id) }}" method="POST" class="modal-content">
+    <form action="{{ route('master-items.update', $item->id) }}" method="POST" class="modal-content" enctype="multipart/form-data">
       @csrf
       @method('PUT')
       <div class="modal-header">
@@ -175,6 +181,10 @@
         <div class="mb-3">
           <label>Nama</label>
           <input type="text" class="form-control" name="nama" value="{{ $item->nama }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="file" class="form-label">Gambar</label>
+            <input type="file" class="form-control" id="file" name="image">
         </div>
         <div class="mb-3">
           <label>Harga Beli</label>
