@@ -81,22 +81,38 @@
 
 <!-- Modal Show -->
 <div class="modal fade" id="showModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detail Category</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Code:</strong> {{ $item->code }}</p>
-        <p><strong>Nama:</strong> {{ $item->name }}</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Category</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Code:</strong> {{ $item->code }}</p>
+          <p><strong>Nama:</strong> {{ $item->name }}</p>
+
+          <hr>
+          <h6>Daftar Master Item</h6>
+          @if ($item->masterItems->count())
+            <ul class="list-group list-group-flush">
+              @foreach ($item->masterItems as $masterItem)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ $masterItem->nama }}
+                  <span class="badge bg-primary">{{ number_format($masterItem->harga_beli) }}</span>
+                </li>
+              @endforeach
+            </ul>
+          @else
+            <p class="text-muted">Tidak ada item dalam kategori ini.</p>
+          @endif
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
 
 <!-- Modal Edit -->
 <div class="modal fade" id="editModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
